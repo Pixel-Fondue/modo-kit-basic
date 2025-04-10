@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       new_kit_name:
-        description: "New Kit Name:"
-        default: 'my-awesome-kit'
+        description: 'New Kit Name:'
+        default: 'my_awesome_kit'
         required: true
       new_kit_abv:
-        description: "Kit Short Name:"
-        default: "mak"
+        description: 'Kit Short Name:'
+        default: 'mak'
         required: true
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     # Only run on new repositories, not the template
     if: github.repository != 'Pixel-Fondue/modo-kit-basic'
     steps:
-      - name: Chekout
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -36,21 +36,21 @@ jobs:
           new_kit_short_name="${{ github.event.inputs.new_kit_abv }}"
 
           # Rename kit name in index.cfg
-          sed -i 's/my_modo_kit/'"$new_kit_name_under"'/g' my-modo-kit/index.cfg
-          sed -i 's/my-modo-kit/'"$new_kit_name"'/g' my-modo-kit/libs/my_modo_kit/__init__.py
-          sed -i 's/my_modo_kit/'"$new_kit_name_under"'/g' my-modo-kit/lxserv/kit_command.py
-          sed -i 's/mmk/'"$new_kit_short_name"'/g' my-modo-kit/lxserv/kit_command.py
-          sed -i 's/mmk/'"$new_kit_short_name"'/g' my-modo-kit/libs/my_modo_kit/__init__.py
-          sed -i 's/mmk/'"$new_kit_short_name"'/g' my-modo-kit/configs/commands.cfg
+          sed -i 's/my_modo_kit/'"$new_kit_name_under"'/g' my_modo_kit/index.cfg
+          sed -i 's/my_modo_kit/'"$new_kit_name"'/g' my_modo_kit/libs/my_modo_kit/__init__.py
+          sed -i 's/my_modo_kit/'"$new_kit_name_under"'/g' my_modo_kit/lxserv/kit_command.py
+          sed -i 's/mmk/'"$new_kit_short_name"'/g' my_modo_kit/lxserv/kit_command.py
+          sed -i 's/mmk/'"$new_kit_short_name"'/g' my_modo_kit/libs/my_modo_kit/__init__.py
+          sed -i 's/mmk/'"$new_kit_short_name"'/g' my_modo_kit/configs/commands.cfg
 
           # lxserv files must be unique lets prefix them
-          mv my-modo-kit/lxserv/kit_command.py "my-modo-kit/lxserv/${new_kit_short_name}_command.py"
+          mv my_modo_kit/lxserv/kit_command.py "my_modo_kit/lxserv/${new_kit_short_name}_command.py"
 
           # Rename library folder name (Must be underscores)
-          mv my-modo-kit/libs/my_modo_kit "my-modo-kit/libs/$new_kit_name_under"
+          mv my_modo_kit/libs/my_modo_kit "my_modo_kit/libs/$new_kit_name_under"
 
           # Rename kit folder name
-          mv my-modo-kit "$new_kit_name"
+          mv my_modo_kit "$new_kit_name"
 
       - name: Apply name changes
         run: |
